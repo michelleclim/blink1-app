@@ -1,0 +1,101 @@
+.tim {
+  font-size: 1.2em;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em 2em; }
+  .tim h1 {
+    font-size: 2em;
+    text-align: center;
+    color: #62c0c0; }
+  .tim .banner {
+    display: flex;
+    justify-content: center;
+    background-color: #7ebfb0;
+    color: #ffffff;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 4px;
+    width: 100%;
+    padding: 1em;
+    margin: .5em 0;
+    text-align: center; }
+    .tim .banner:before {
+      display: flex;
+      content: '\2713';
+      margin-right: .618em; }
+    .tim .banner.error {
+      background-color: #ac7676; }
+      .tim .banner.error:before {
+        content: '\2717'; }
+  .tim .commands {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-bottom: 2em; }
+    .tim .commands div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 7em;
+      height: 3em;
+      border-radius: 4px;
+      background-color: #76acac;
+      color: #ffffff;
+      margin: 1em;
+      			/*&.happy {
+      				background-color: #F2EE0F;
+      			}
+      
+      			&.laughing {
+      				background-color: #FF9EA8;
+      			}
+      
+      			&.sad {
+      				background-color: #4249FF;
+      			}
+      
+      			&.mad {
+      				background-color: #dd2727;
+      			}
+      
+      			&.sleepy {
+      				background-color: #595959;
+      			}*/ }
+      @media (max-width: 480px) {
+        .tim .commands div {
+          width: 10em;
+          height: 5em; } }
+      .tim .commands div:hover {
+        cursor: pointer;
+        opacity: .9; }
+      .tim .commands div:active {
+        background-color: #7ea5a5; }
+  .tim .settings {
+    cursor: pointer;
+    align-self: flex-end;
+    width: 2em;
+    height: 2em;
+    fill: #62c0c0; }
+    .tim .settings:hover {
+      opacity: .9; }
+  .tim .popeye-modal-container {
+    background-color: rgba(85, 85, 85, 0.7); }
+    .tim .popeye-modal-container .popeye-modal .popeye-close-modal {
+      font-size: 2em;
+      top: .5em;
+      right: .5em;
+      color: #62c0c0; }
+      .tim .popeye-modal-container .popeye-modal .popeye-close-modal:hover {
+        opacity: .9; }
+    .tim .popeye-modal-container .popeye-modal .content h1 {
+      margin-top: 0; }
+    .tim .popeye-modal-container .popeye-modal .content input {
+      line-height: 1.618em;
+      font-size: 1em;
+      padding: 0 .382em;
+      max-width: 100%; }
+
+/*# sourceMappingURL=main.css.map */
