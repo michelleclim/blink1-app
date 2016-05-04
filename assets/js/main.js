@@ -39,6 +39,7 @@
 			vm.ngrok = ngrokService;
 			vm.triggerEmotion = triggerEmotion;
 			vm.triggerAction = triggerAction;
+			vm.keyTrigger = keyTrigger;
 			vm.displayMessage = displayMessage;
 			vm.settingsModal = settingsModal;
 			vm.reset = reset;
@@ -56,6 +57,57 @@
 				modal.closed.then(function() {
 					localStorage['ngrokId'] = vm.ngrok.id;
 				});
+			}
+
+			//check for syntax
+			window.addEventListener('keyup', keyTrigger, false);
+
+			function keyTrigger(event) {
+				console.log(event.keyCode);
+				//find keycodes
+				switch(event.keyCode) {
+					case 65:
+						triggerAction('poke');
+						break;
+					case 83:
+						triggerAction('punch');
+						break;
+					case 68:
+						triggerAction('cheer');
+						break;
+					case 70:
+						triggerAction('alert');
+						break;
+					case 74:
+						triggerAction('walk');
+						break;
+					case 75:
+						triggerAction('kitchen');
+						break;
+					case 76:
+						triggerAction('lunch');
+						break;
+					case 49:
+						triggerEmotion('happy');
+						break;
+					case 50:
+						triggerEmotion('laughing');
+						break;
+					case 51:
+						triggerEmotion('sad');
+						break;
+					case 52:
+						triggerEmotion('mad');
+						break;
+					case 53:
+						triggerEmotion('sleepy');
+						break;
+					case 54:
+						triggerEmotion('bored');
+						break;
+					default:
+						console.log('invalid keystroke');
+				}
 			}
 
 			function displayMessage(status) {
@@ -118,7 +170,7 @@
 						repeat = 1;
 						color = '000000'; // none
 				}
-				$http.jsonp('http://' + vm.ngrok.id + '.ngrok.io/blink1/blink?rgb=%23' + color + '&time=' + time + '&repeats=' + repeat)
+				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/blink?rgb=%23' + color + '&time=' + time + '&repeats=' + repeat)
 					.then(function(response){
 						console.log('success');
 						vm.type = 'emotion';
@@ -178,7 +230,7 @@
 						time = 1;
 						repeat = 1;
 				}
-				$http.jsonp('http://' + vm.ngrok.id + '.ngrok.io/blink1/blink?rgb=%23' + color + '&time=' + time + '&repeats=' + repeat + '&ledn=' + ledn)
+				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/blink?rgb=%23' + color + '&time=' + time + '&repeats=' + repeat + '&ledn=' + ledn)
 					.then(function(response){
 						console.log('success');
 						vm.type = 'action';
