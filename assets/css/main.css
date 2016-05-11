@@ -9,6 +9,23 @@
     font-size: 2em;
     text-align: center;
     color: #62c0c0; }
+  .tim nav {
+    display: flex;
+    border: 2px solid #62c0c0; }
+    .tim nav a {
+      background-color: #62c0c0;
+      line-height: 2em;
+      padding: 0 1em;
+      text-decoration: none;
+      color: #ffffff; }
+      .tim nav a:hover {
+        cursor: pointer;
+        opacity: .9; }
+      .tim nav a.selected {
+        cursor: default;
+        opacity: .9;
+        background-color: #ffffff;
+        color: #62c0c0; }
   .tim .banner {
     display: flex;
     justify-content: center;
@@ -17,7 +34,7 @@
     font-size: 1.2em;
     font-weight: bold;
     border-radius: 4px;
-    width: 100%;
+    width: calc(100%-2em);
     padding: 1em;
     margin: .5em 0;
     text-align: center; }
@@ -44,26 +61,7 @@
       border-radius: 4px;
       background-color: #76acac;
       color: #ffffff;
-      margin: 1em;
-      			/*&.happy {
-      				background-color: #F2EE0F;
-      			}
-      
-      			&.laughing {
-      				background-color: #FF9EA8;
-      			}
-      
-      			&.sad {
-      				background-color: #4249FF;
-      			}
-      
-      			&.mad {
-      				background-color: #dd2727;
-      			}
-      
-      			&.sleepy {
-      				background-color: #595959;
-      			}*/ }
+      margin: 1em; }
       @media (max-width: 480px) {
         .tim .commands div {
           width: 10em;
@@ -73,6 +71,26 @@
         opacity: .9; }
       .tim .commands div:active {
         background-color: #7ea5a5; }
+  .tim .morse .message {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; }
+    .tim .morse .message input {
+      line-height: 2em;
+      width: 100%;
+      max-width: 500px;
+      font-size: 16px;
+      padding: 0 .382em; }
+    .tim .morse .message div {
+      background-color: #62c0c0;
+      color: #ffffff;
+      line-height: 2em;
+      padding: 0 .618em;
+      margin-left: .618em; }
+      .tim .morse .message div:hover {
+        cursor: pointer;
+        opacity: .9; }
   .tim .settings {
     cursor: pointer;
     align-self: flex-end;

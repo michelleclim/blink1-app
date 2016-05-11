@@ -13,6 +13,31 @@
 		color: #62c0c0;
 	}
 
+	nav {
+		display: flex;
+		border: 2px solid #62c0c0;
+		
+		a {
+			background-color: #62c0c0;
+			line-height: 2em;
+			padding: 0 1em;
+			text-decoration: none;
+			color: #ffffff;
+
+			&:hover {
+				cursor: pointer;
+				opacity: .9;
+			}
+
+			&.selected {
+				cursor: default;
+				opacity: .9;
+				background-color: #ffffff;
+				color: #62c0c0;
+			}
+		}
+	}
+
 	.banner {
 		display: flex;
 		justify-content: center;
@@ -21,7 +46,7 @@
 		font-size: 1.2em;
 		font-weight: bold;
 		border-radius: 4px;
-		width: 100%;
+		width: calc(100%-2em);
 		padding: 1em;
 		margin: .5em 0;
 		text-align: center;
@@ -73,26 +98,35 @@
 			&:active {
 				background-color: #7ea5a5;
 			}
+		}
+	}
 
-			/*&.happy {
-				background-color: #F2EE0F;
+	.morse {
+		.message {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+
+			input {
+				line-height: 2em;
+				width: 100%;
+				max-width: 500px;
+				font-size: 16px;
+				padding: 0 .382em;	
 			}
+			div {
+				background-color: #62c0c0;
+				color: #ffffff;
+				line-height: 2em;
+				padding: 0 .618em;
+				margin-left: .618em;
 
-			&.laughing {
-				background-color: #FF9EA8;
+				&:hover {
+					cursor: pointer;
+					opacity: .9;
+				}
 			}
-
-			&.sad {
-				background-color: #4249FF;
-			}
-
-			&.mad {
-				background-color: #dd2727;
-			}
-
-			&.sleepy {
-				background-color: #595959;
-			}*/
 		}
 	}
 

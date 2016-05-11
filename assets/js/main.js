@@ -1,7 +1,7 @@
 (function(angular) {
 	'use strict';
 
-	var app = angular.module('blink', ['pathgather.popeye', 'ngAnimate']);
+	var app = angular.module('blink', ['pathgather.popeye', 'ngAnimate', 'ngRoute']);
 
 	app.service('ngrokService', function(){
 		var ngrok = {
@@ -10,6 +10,57 @@
 
 		return ngrok;
 	});
+
+	app.service('notificationService', ['$timeout', function($timeout) {
+		var vm = this;
+		vm.displayMessage = displayMessage;
+		vm.reset = reset;
+		vm.error = false;
+
+		var timer;
+		reset();
+
+		function displayMessage(status, type, code) {
+			var ending = '';
+			if (status === 404) {
+				vm.message = 'Oh no! Tim can\'t hear you!';
+			} else {
+				if (type === 'action') {
+					if (code.substr(code.length -1) === 'e') {
+						ending = 'd';
+					} else {
+						ending = 'ed';
+					}
+					vm.message = 'You ' + code + ending + ' Tim!';
+				} else if (type === 'emotion') {
+					vm.message = 'You are ' + code + '!';
+				} else if (type === 'morse') {
+					vm.message = code;
+				}
+			}
+
+			$timeout.cancel(timer);
+			timer = $timeout(reset, 5000);
+		}
+
+		function reset() {
+			vm.message = '';
+		}
+	}]);
+
+	app.config(['$routeProvider', function($routeProvider) {
+
+		$routeProvider
+			.when('/morse', {
+				templateUrl: '/templates/morse-coder.html'
+			})
+			.when('/home', {
+				templateUrl: '/templates/annoyer.html'
+			})
+			.otherwise({
+				redirectTo: '/home'
+			});
+	}]);
 
 	app.controller('modalCtrl', [
 		'$scope',
@@ -22,35 +73,45 @@
 			vm.ngrok = ngrokService;
 	}]);
 
+	app.controller('generalCtrl', function() {
+		var vm = this;
+		vm.location = '';
+		vm.getLocationId = getLocationId;
+
+		getLocationId(window.location.href);
+
+		function getLocationId(url) {
+			vm.location = url.split('/').pop();
+			return url.split('/').pop();
+		}
+
+
+	});
+
 	app.controller('annoyCtrl', [ 
 		'$scope', 
 		'$http', 
-		'$timeout',
+		'notificationService',
 		'ngrokService',
 		'Popeye',
 		function(
 			$scope, 
 			$http,
-			$timeout,
+			notificationService,
 			ngrokService,
 			Popeye
 		){
 			var vm = this;
 			vm.ngrok = ngrokService;
+			vm.notification = notificationService;
 			vm.triggerEmotion = triggerEmotion;
 			vm.triggerAction = triggerAction;
 			vm.keyTrigger = keyTrigger;
-			vm.displayMessage = displayMessage;
 			vm.settingsModal = settingsModal;
-			vm.reset = reset;
-			vm.error - false;
-			
-			var timer;
-			reset();
 
 			function settingsModal() {
 				var modal = Popeye.openModal({
-					templateUrl: 'modal.html',
+					templateUrl: 'templates/modal.html',
 					controller: 'modalCtrl as modal'
 				});
 
@@ -59,12 +120,9 @@
 				});
 			}
 
-			//check for syntax
-			window.addEventListener('keyup', keyTrigger, false);
+			//window.addEventListener('keyup', keyTrigger, false);
 
 			function keyTrigger(event) {
-				console.log(event.keyCode);
-				//find keycodes
 				switch(event.keyCode) {
 					case 65:
 						triggerAction('poke');
@@ -106,35 +164,8 @@
 						triggerEmotion('bored');
 						break;
 					default:
-						console.log('invalid keystroke');
+						console.error('invalid keystroke');
 				}
-			}
-
-			function displayMessage(status) {
-				var ending = '';
-				if (status === 404) {
-					vm.message = 'Oh no! Tim can\'t hear you!';
-				} else {
-					if (vm.type === 'action') {
-						if (vm.event.substr(vm.event.length -1) === 'e') {
-							ending = 'd';
-						} else {
-							ending = 'ed';
-						}
-						vm.message = 'You ' + vm.event + ending + ' Tim!';
-					} else if (vm.type === 'emotion') {
-						vm.message = 'You are ' + vm.event + '!';
-					}
-				}
-
-				$timeout.cancel(timer);
-				timer = $timeout(reset, 5000);
-			}
-
-			function reset() {
-				vm.message = '';
-				vm.type = '';
-				vm.event = '';
 			}
 
 			function triggerEmotion(emotion) {
@@ -172,22 +203,15 @@
 				}
 				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/blink?rgb=%23' + color + '&time=' + time + '&repeats=' + repeat)
 					.then(function(response){
-						console.log('success');
 						vm.type = 'emotion';
 						vm.event = emotion;
-						displayMessage();
-						vm.response = response.data;
+						vm.notification.error = false;
+						vm.notification.displayMessage(response.status, 'emotion', vm.event);
 					}, function(response){
-						console.log('fail');
 						vm.type = 'emotion';
 						vm.event = emotion;
-						if (response.status === 404) {
-							vm.error = true;
-							displayMessage(404);
-						} else {
-							displayMessage();
-						}
-						vm.response = response.data;
+						vm.notification.error = true;
+						vm.notification.displayMessage(404);
 					});
 			}
 
@@ -232,25 +256,49 @@
 				}
 				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/blink?rgb=%23' + color + '&time=' + time + '&repeats=' + repeat + '&ledn=' + ledn)
 					.then(function(response){
-						console.log('success');
 						vm.type = 'action';
 						vm.event = action;
-						displayMessage();
-						vm.response = response.data;
+						vm.notification.error = false;
+						vm.notification.displayMessage(response.status, 'action', vm.event);
 					}, function(response){
-						console.log('fail');
 						vm.type = 'action';
 						vm.event = action;
-						if (response.status === 404) {
-							vm.error = true;
-							displayMessage(404);
-						} else {
-							displayMessage();
-						}
-						vm.response = response.data;
+						vm.notification.error = true;
+						vm.notification.displayMessage(404);
 					});
 			}
 
 	}]);
+
+	app.controller('morseCtrl', [
+		'$scope', 
+		'$http',
+		'ngrokService',
+		'notificationService',
+		function(
+			$scope, 
+			$http,
+			ngrokService,
+			notificationService
+		) {
+			var vm = this;
+			vm.message = '';
+			vm.ngrok = ngrokService;
+			vm.notification = notificationService;
+			vm.translateMorse = translateMorse;
+
+			function translateMorse(message) {
+				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/morse?message=' + message + '&time=.3&rgb=%2366b2b2')
+					.then(function(response) {
+						vm.code = response.data.code;
+						vm.notification.displayMessage(response.status, 'morse', response.data.code);
+						vm.message = '';
+					}, function(response) {
+						vm.notification.error = true;
+						vm.notification.displayMessage(404);
+						vm.message = '';
+					});
+			}
+		}]);
 
 })(angular);
