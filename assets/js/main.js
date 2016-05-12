@@ -23,7 +23,11 @@
 		function displayMessage(status, type, code) {
 			var ending = '';
 			if (status === 404) {
-				vm.message = 'Oh no! Tim can\'t hear you!';
+				if (type === 'morse') {
+					vm.message = '. .-. .-. --- .-.';
+				} else {
+					vm.message = 'Oh no! Tim can\'t hear you!';
+				}
 			} else {
 				if (type === 'action') {
 					if (code.substr(code.length -1) === 'e') {
@@ -73,41 +77,25 @@
 			vm.ngrok = ngrokService;
 	}]);
 
-	app.controller('generalCtrl', function() {
-		var vm = this;
-		vm.location = '';
-		vm.getLocationId = getLocationId;
-
-		getLocationId(window.location.href);
-
-		function getLocationId(url) {
-			vm.location = url.split('/').pop();
-			return url.split('/').pop();
-		}
-
-
-	});
-
-	app.controller('annoyCtrl', [ 
-		'$scope', 
-		'$http', 
-		'notificationService',
-		'ngrokService',
-		'Popeye',
+	app.controller('generalCtrl', [
+		'Popeye', 
+		'ngrokService', 
 		function(
-			$scope, 
-			$http,
-			notificationService,
-			ngrokService,
-			Popeye
-		){
+			Popeye, 
+			ngrokService
+		) {
 			var vm = this;
+			vm.location = '';
+			vm.getLocationId = getLocationId;
 			vm.ngrok = ngrokService;
-			vm.notification = notificationService;
-			vm.triggerEmotion = triggerEmotion;
-			vm.triggerAction = triggerAction;
-			vm.keyTrigger = keyTrigger;
 			vm.settingsModal = settingsModal;
+
+			getLocationId(window.location.href);
+
+			function getLocationId(url) {
+				vm.location = url.split('/').pop();
+				return url.split('/').pop();
+			}
 
 			function settingsModal() {
 				var modal = Popeye.openModal({
@@ -119,6 +107,25 @@
 					localStorage['ngrokId'] = vm.ngrok.id;
 				});
 			}
+	}]);
+
+	app.controller('annoyCtrl', [ 
+		'$scope', 
+		'$http', 
+		'notificationService',
+		'ngrokService',
+		function(
+			$scope, 
+			$http,
+			notificationService,
+			ngrokService
+		){
+			var vm = this;
+			vm.ngrok = ngrokService;
+			vm.notification = notificationService;
+			vm.triggerEmotion = triggerEmotion;
+			vm.triggerAction = triggerAction;
+			vm.keyTrigger = keyTrigger;
 
 			//window.addEventListener('keyup', keyTrigger, false);
 
@@ -290,12 +297,13 @@
 			function translateMorse(message) {
 				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/morse?message=' + message + '&time=.3&rgb=%2366b2b2')
 					.then(function(response) {
+						vm.notification.error = false;
 						vm.code = response.data.code;
 						vm.notification.displayMessage(response.status, 'morse', response.data.code);
 						vm.message = '';
 					}, function(response) {
 						vm.notification.error = true;
-						vm.notification.displayMessage(404);
+						vm.notification.displayMessage(404, 'morse');
 						vm.message = '';
 					});
 			}
