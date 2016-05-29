@@ -80,9 +80,11 @@
 	app.controller('generalCtrl', [
 		'Popeye', 
 		'ngrokService', 
+		'$scope',
 		function(
 			Popeye, 
-			ngrokService
+			ngrokService,
+			$scope
 		) {
 			var vm = this;
 			vm.location = '';
@@ -94,9 +96,9 @@
 
 			function getLocationId(url) {
 				vm.location = url.split('/').pop();
-				return url.split('/').pop();
+				return vm.location;
 			}
-
+			
 			function settingsModal() {
 				var modal = Popeye.openModal({
 					templateUrl: 'templates/modal.html',
@@ -127,10 +129,14 @@
 			vm.triggerAction = triggerAction;
 			vm.keyTrigger = keyTrigger;
 
-			//window.addEventListener('keyup', keyTrigger, false);
+			window.addEventListener('keyup', keyTrigger, false);
 
-			function keyTrigger(event) {
-				switch(event.keyCode) {
+			$scope.$on('$destroy', function () {
+				window.removeEventListener('keyup', keyTrigger, false);
+			});
+
+			function keyTrigger($event) {
+				switch($event.keyCode) {
 					case 65:
 						triggerAction('poke');
 						break;
@@ -208,6 +214,7 @@
 						repeat = 1;
 						color = '000000'; // none
 				}
+
 				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/blink?rgb=%23' + color + '&time=' + time + '&repeats=' + repeat)
 					.then(function(response){
 						vm.type = 'emotion';
@@ -230,7 +237,7 @@
 					case 'poke':
 						time = .3;
 						repeat = 1;
-						ledn = 1;
+						ledn = 2;
 						break;
 					case 'walk':
 						time = .7;
@@ -261,6 +268,7 @@
 						time = 1;
 						repeat = 1;
 				}
+				
 				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/blink?rgb=%23' + color + '&time=' + time + '&repeats=' + repeat + '&ledn=' + ledn)
 					.then(function(response){
 						vm.type = 'action';

@@ -1,4 +1,4 @@
-<section ng-controller="annoyCtrl as annoy">
+<section id="myContainer" ng-controller="annoyCtrl as annoy">
 	<section class="banner" ng-class="{error: annoy.notification.error}" ng-hide="annoy.notification.message === ''">
 		{{annoy.notification.message}}
 	</section>
