@@ -81,16 +81,19 @@
 		'Popeye', 
 		'ngrokService', 
 		'$scope',
+		'$rootScope',
 		function(
 			Popeye, 
 			ngrokService,
-			$scope
+			$scope,
+			$rootScope
 		) {
 			var vm = this;
 			vm.location = '';
 			vm.getLocationId = getLocationId;
 			vm.ngrok = ngrokService;
 			vm.settingsModal = settingsModal;
+			vm.modalActive = false;
 
 			getLocationId(window.location.href);
 
@@ -100,24 +103,28 @@
 			}
 			
 			function settingsModal() {
+				$rootScope.modalActive = true;
 				var modal = Popeye.openModal({
 					templateUrl: 'templates/modal.html',
 					controller: 'modalCtrl as modal'
 				});
 
 				modal.closed.then(function() {
+					$rootScope.modalActive = false;
 					localStorage['ngrokId'] = vm.ngrok.id;
 				});
 			}
 	}]);
 
 	app.controller('annoyCtrl', [ 
-		'$scope', 
+		'$scope',
+		'$rootScope',
 		'$http', 
 		'notificationService',
 		'ngrokService',
 		function(
-			$scope, 
+			$scope,
+			$rootScope,
 			$http,
 			notificationService,
 			ngrokService
@@ -133,6 +140,14 @@
 
 			$scope.$on('$destroy', function () {
 				window.removeEventListener('keyup', keyTrigger, false);
+			});
+
+			$rootScope.$watch('modalActive', function(modal){
+				if (modal) {
+					window.removeEventListener('keyup', keyTrigger, false);
+				} else {
+					window.addEventListener('keyup', keyTrigger, false);
+				}
 			});
 
 			function keyTrigger($event) {
@@ -268,7 +283,7 @@
 						time = 1;
 						repeat = 1;
 				}
-				
+
 				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/blink?rgb=%23' + color + '&time=' + time + '&repeats=' + repeat + '&ledn=' + ledn)
 					.then(function(response){
 						vm.type = 'action';
