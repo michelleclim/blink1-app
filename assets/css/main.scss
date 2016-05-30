@@ -130,22 +130,31 @@
 		}
 	}
 
-	.settings {
-		cursor: pointer;
-		align-self: flex-end;
-		width: 2em;
-		height: 2em;
-		fill: #62c0c0;
+	.helpers {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
+		margin-bottom: .618em;
 
-		&:hover {
-			opacity: .9;
-		};
+		.icon {
+			cursor: pointer;
+			width: 2em;
+			height: 2em;
+			fill: #62c0c0;
+
+			&:hover {
+				opacity: .9;
+			};
+		}
 	}
 
 	.popeye-modal-container {
 		background-color: rgba(85,85,85,.7);
+		color: #62c0c0;
 
 		.popeye-modal {
+
 			.popeye-close-modal {
 				font-size: 2em;
 				top: .5em;
@@ -157,6 +166,9 @@
 				};
 			}
 			.content {
+				max-height: 300px;
+				overflow-y: auto;
+
 				h1 {
 					margin-top: 0;
 				}

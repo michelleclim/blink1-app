@@ -91,16 +91,22 @@
       .tim .morse .message div:hover {
         cursor: pointer;
         opacity: .9; }
-  .tim .settings {
-    cursor: pointer;
-    align-self: flex-end;
-    width: 2em;
-    height: 2em;
-    fill: #62c0c0; }
-    .tim .settings:hover {
-      opacity: .9; }
+  .tim .helpers {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: .618em; }
+    .tim .helpers .icon {
+      cursor: pointer;
+      width: 2em;
+      height: 2em;
+      fill: #62c0c0; }
+      .tim .helpers .icon:hover {
+        opacity: .9; }
   .tim .popeye-modal-container {
-    background-color: rgba(85, 85, 85, 0.7); }
+    background-color: rgba(85, 85, 85, 0.7);
+    color: #62c0c0; }
     .tim .popeye-modal-container .popeye-modal .popeye-close-modal {
       font-size: 2em;
       top: .5em;
@@ -108,12 +114,15 @@
       color: #62c0c0; }
       .tim .popeye-modal-container .popeye-modal .popeye-close-modal:hover {
         opacity: .9; }
-    .tim .popeye-modal-container .popeye-modal .content h1 {
-      margin-top: 0; }
-    .tim .popeye-modal-container .popeye-modal .content input {
-      line-height: 1.618em;
-      font-size: 1em;
-      padding: 0 .382em;
-      max-width: 100%; }
+    .tim .popeye-modal-container .popeye-modal .content {
+      max-height: 300px;
+      overflow-y: auto; }
+      .tim .popeye-modal-container .popeye-modal .content h1 {
+        margin-top: 0; }
+      .tim .popeye-modal-container .popeye-modal .content input {
+        line-height: 1.618em;
+        font-size: 1em;
+        padding: 0 .382em;
+        max-width: 100%; }
 
 /*# sourceMappingURL=main.css.map */

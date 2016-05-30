@@ -93,6 +93,7 @@
 			vm.getLocationId = getLocationId;
 			vm.ngrok = ngrokService;
 			vm.settingsModal = settingsModal;
+			vm.infoModal = infoModal;
 			vm.modalActive = false;
 
 			getLocationId(window.location.href);
@@ -112,6 +113,17 @@
 				modal.closed.then(function() {
 					$rootScope.modalActive = false;
 					localStorage['ngrokId'] = vm.ngrok.id;
+				});
+			}
+
+			function infoModal() {
+				$rootScope.modalActive = true;
+				var modal = Popeye.openModal({
+					templateUrl: 'templates/info-modal.html'
+				});
+
+				modal.closed.then(function() {
+					$rootScope.modalActive = false;
 				});
 			}
 	}]);
@@ -152,43 +164,43 @@
 
 			function keyTrigger($event) {
 				switch($event.keyCode) {
-					case 65:
+					case 65: // a
 						triggerAction('poke');
 						break;
-					case 83:
+					case 83: // s
 						triggerAction('punch');
 						break;
-					case 68:
+					case 68: // d
 						triggerAction('cheer');
 						break;
-					case 70:
+					case 70: // f
 						triggerAction('alert');
 						break;
-					case 74:
+					case 74: // j
 						triggerAction('walk');
 						break;
-					case 75:
+					case 75: // k
 						triggerAction('kitchen');
 						break;
-					case 76:
+					case 76: // l
 						triggerAction('lunch');
 						break;
-					case 49:
+					case 49: // 1
 						triggerEmotion('happy');
 						break;
-					case 50:
+					case 50: // 2
 						triggerEmotion('laughing');
 						break;
-					case 51:
+					case 51: // 3
 						triggerEmotion('sad');
 						break;
-					case 52:
+					case 52: // 4
 						triggerEmotion('mad');
 						break;
-					case 53:
+					case 53: // 5
 						triggerEmotion('sleepy');
 						break;
-					case 54:
+					case 54: // 6
 						triggerEmotion('bored');
 						break;
 					default:
