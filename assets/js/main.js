@@ -154,7 +154,7 @@
 				window.removeEventListener('keyup', keyTrigger, false);
 			});
 
-			$rootScope.$watch('modalActive', function(modal){
+			$scope.$watch('modalActive', function(modal){
 				if (modal) {
 					window.removeEventListener('keyup', keyTrigger, false);
 				} else {
