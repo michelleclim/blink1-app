@@ -91,6 +91,30 @@
       .tim .morse .message div:hover {
         cursor: pointer;
         opacity: .9; }
+  .tim .pattern form {
+    display: flex;
+    flex-direction: column;
+    color: #76acac; }
+    .tim .pattern form input[type="text"] {
+      line-height: 1em;
+      font-size: 1em;
+      padding: .19em;
+      margin-bottom: .382em; }
+  .tim .pattern .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 7em;
+    height: 3em;
+    border-radius: 4px;
+    background-color: #76acac;
+    color: #ffffff;
+    margin: 1em auto 0; }
+    .tim .pattern .button:hover {
+      cursor: pointer;
+      opacity: .9; }
+    .tim .pattern .button:active {
+      background-color: #7ea5a5; }
   .tim .helpers {
     display: flex;
     flex-direction: row;

@@ -40,6 +40,8 @@
 					vm.message = 'You are ' + code + '!';
 				} else if (type === 'morse') {
 					vm.message = code;
+				} else if (type === 'pattern') {
+					vm.message = 'What a pretty pattern!';
 				}
 			}
 
@@ -60,6 +62,9 @@
 			})
 			.when('/home', {
 				templateUrl: '/templates/annoyer.html'
+			})
+			.when('/pattern', {
+				templateUrl: '/templates/pattern-builder.html'
 			})
 			.otherwise({
 				redirectTo: '/home'
@@ -342,6 +347,53 @@
 						vm.message = '';
 					});
 			}
+		}]);
+
+	app.controller('patternCtrl', [
+		'$scope',
+		'$http',
+		'ngrokService',
+		'notificationService',
+		function(
+			$scope,
+			$http,
+			ngrokService,
+			notificationService
+		) {
+			var vm = this;
+			vm.ngrok = ngrokService;
+			vm.notification = notificationService;
+			vm.time = '';
+			vm.repeat = '';
+			vm.colorList = [];
+			vm.colorPattern = '';
+			vm.createColorList = createColorList;
+			vm.createPattern = createPattern;
+
+			function createColorList() {
+				var colors = document.querySelectorAll('.color');
+				[].forEach.call(colors, function(e,i,a){
+					if (colors[i].value) {
+						vm.colorList.push('%23' + colors[i].value.substr(1));
+					} 
+				});
+				vm.colorPattern = vm.colorList.join(',');
+			}
+
+			function createPattern() {
+				createColorList();
+				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/pattern?rgb=' + vm.colorPattern + '&time=' + vm.time + '&repeats=' + vm.repeat)
+					.then(function(response) {
+						vm.colorList = [];
+						vm.notification.error = false;
+						vm.notification.displayMessage(response.status, 'pattern');
+					}, function(response) {
+						vm.colorList = [];
+						vm.notification.error = true;
+						vm.notification.displayMessage(404, 'pattern');
+					});
+			}
+
 		}]);
 
 })(angular);

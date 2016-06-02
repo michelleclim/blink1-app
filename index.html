@@ -41,11 +41,14 @@
 		</div>
 		<nav>
 			<a href="/#/home" 
-				ng-class="{selected: general.location !== 'morse'}" 
+				ng-class="{selected: general.location !== 'morse' && general.location !== 'pattern'}" 
 				ng-click="general.getLocationId('home')">annoy</a>
 			<a href="/#/morse" 
 				ng-class="{selected: general.location === 'morse'}" 
 				ng-click="general.getLocationId('morse')">morse</a>
+			<a href="/#/pattern" 
+				ng-class="{selected: general.location === 'pattern'}" 
+				ng-click="general.getLocationId('pattern')">pattern</a>
 		</nav>
 		<div ng-view></div>
 	</body>

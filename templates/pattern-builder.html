@@ -1,0 +1,17 @@
+<section ng-controller="patternCtrl as pattern" class="pattern">
+	<section class="banner" ng-class="{error: pattern.notification.error}" ng-hide="pattern.notification.message === ''">
+		{{pattern.notification.message}}
+	</section>
+	<h1>Pattern Builder</h1>
+	<form>
+		<label>Time (sec):</label><input type="text" ng-model="pattern.time">
+		<label>Repeat:</label><input type="text" ng-model="pattern.repeat">
+		<label>Color #1:</label><input type="text" class="color">
+		<label>Color #2:</label><input type="text" class="color">
+		<label>Color #3:</label><input type="text" class="color">
+		<label>Color #4:</label><input type="text" class="color">
+		<label>Color #5:</label><input type="text" class="color">
+		<label>Color #6:</label><input type="text" class="color">
+		<a class="button" ng-click="pattern.createPattern()">Submit</a>
+	</form>
+</section>

@@ -130,6 +130,43 @@
 		}
 	}
 
+	.pattern {
+
+		form {
+			display: flex;
+			flex-direction: column;
+			color: #76acac;
+
+			input[type="text"] {
+				line-height: 1em;
+				font-size: 1em;
+				padding: .19em;
+				margin-bottom: .382em;
+			}
+		}
+
+		.button {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 7em;
+			height: 3em;
+			border-radius: 4px;
+			background-color: #76acac;
+			color: #ffffff;
+			margin: 1em auto 0;
+
+			&:hover {
+				cursor: pointer;
+				opacity: .9;
+			}
+
+			&:active {
+				background-color: #7ea5a5;
+			}
+		}
+	}
+
 	.helpers {
 		display: flex;
 		flex-direction: row;
