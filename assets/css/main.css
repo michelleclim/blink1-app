@@ -26,33 +26,85 @@
         opacity: .9;
         background-color: #ffffff;
         color: #62c0c0; }
-  .tim .banner {
-    display: flex;
-    justify-content: center;
-    background-color: #7ebfb0;
-    color: #ffffff;
-    font-size: 1.2em;
-    font-weight: bold;
-    border-radius: 4px;
-    width: calc(100%-2em);
-    padding: 1em;
-    margin: .5em 0;
-    text-align: center; }
-    .tim .banner:before {
+  .tim .view {
+    width: 100%; }
+    .tim .view .banner {
       display: flex;
-      content: '\2713';
-      margin-right: .618em; }
-    .tim .banner.error {
-      background-color: #ac7676; }
-      .tim .banner.error:before {
-        content: '\2717'; }
-  .tim .commands {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-bottom: 2em; }
-    .tim .commands div {
+      justify-content: center;
+      background-color: #7ebfb0;
+      color: #ffffff;
+      font-size: 1.2em;
+      font-weight: bold;
+      border-radius: 4px;
+      width: calc(100%-2em);
+      padding: 1em;
+      margin: .5em 0;
+      text-align: center; }
+      .tim .view .banner:before {
+        display: flex;
+        content: '\2713';
+        margin-right: .618em; }
+      .tim .view .banner.error {
+        background-color: #ac7676; }
+        .tim .view .banner.error:before {
+          content: '\2717'; }
+    .tim .view .commands {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-bottom: 2em; }
+      .tim .view .commands div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 7em;
+        height: 3em;
+        border-radius: 4px;
+        background-color: #76acac;
+        color: #ffffff;
+        margin: 1em; }
+        @media (max-width: 480px) {
+          .tim .view .commands div {
+            width: 10em;
+            height: 5em; } }
+        .tim .view .commands div:hover {
+          cursor: pointer;
+          opacity: .9; }
+        .tim .view .commands div:active {
+          background-color: #7ea5a5; }
+    .tim .view .morse .message {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center; }
+      .tim .view .morse .message input {
+        line-height: 2em;
+        width: 100%;
+        max-width: 500px;
+        font-size: 16px;
+        padding: 0 .382em; }
+      .tim .view .morse .message div {
+        background-color: #62c0c0;
+        color: #ffffff;
+        line-height: 2em;
+        padding: 0 .618em;
+        margin-left: .618em; }
+        .tim .view .morse .message div:hover {
+          cursor: pointer;
+          opacity: .9; }
+    .tim .view .pattern form {
+      display: flex;
+      flex-direction: column;
+      color: #76acac;
+      max-width: 300px;
+      margin: 0 auto; }
+      .tim .view .pattern form input[type="text"] {
+        line-height: 1em;
+        font-size: 1em;
+        padding: .19em;
+        margin-bottom: .382em; }
+    .tim .view .pattern .button {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -61,60 +113,12 @@
       border-radius: 4px;
       background-color: #76acac;
       color: #ffffff;
-      margin: 1em; }
-      @media (max-width: 480px) {
-        .tim .commands div {
-          width: 10em;
-          height: 5em; } }
-      .tim .commands div:hover {
+      margin: 1em auto 0; }
+      .tim .view .pattern .button:hover {
         cursor: pointer;
         opacity: .9; }
-      .tim .commands div:active {
+      .tim .view .pattern .button:active {
         background-color: #7ea5a5; }
-  .tim .morse .message {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center; }
-    .tim .morse .message input {
-      line-height: 2em;
-      width: 100%;
-      max-width: 500px;
-      font-size: 16px;
-      padding: 0 .382em; }
-    .tim .morse .message div {
-      background-color: #62c0c0;
-      color: #ffffff;
-      line-height: 2em;
-      padding: 0 .618em;
-      margin-left: .618em; }
-      .tim .morse .message div:hover {
-        cursor: pointer;
-        opacity: .9; }
-  .tim .pattern form {
-    display: flex;
-    flex-direction: column;
-    color: #76acac; }
-    .tim .pattern form input[type="text"] {
-      line-height: 1em;
-      font-size: 1em;
-      padding: .19em;
-      margin-bottom: .382em; }
-  .tim .pattern .button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 7em;
-    height: 3em;
-    border-radius: 4px;
-    background-color: #76acac;
-    color: #ffffff;
-    margin: 1em auto 0; }
-    .tim .pattern .button:hover {
-      cursor: pointer;
-      opacity: .9; }
-    .tim .pattern .button:active {
-      background-color: #7ea5a5; }
   .tim .helpers {
     display: flex;
     flex-direction: row;
