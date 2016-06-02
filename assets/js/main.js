@@ -14,6 +14,7 @@
 	app.service('notificationService', ['$timeout', function($timeout) {
 		var vm = this;
 		vm.displayMessage = displayMessage;
+		vm.patternError = patternError;
 		vm.reset = reset;
 		vm.error = false;
 
@@ -45,6 +46,18 @@
 				}
 			}
 
+			$timeout.cancel(timer);
+			timer = $timeout(reset, 5000);
+		}
+
+		function patternError(error) {
+			if (error === 'time') {
+				vm.message = 'Please check your Time input!';
+			} else if (error === 'repeat') {
+				vm.message = 'Please check your Repeat input!';
+			} else if (error === 'color') {
+				vm.message = 'Please make sure you have at least one color in HEX!'
+			}
 			$timeout.cancel(timer);
 			timer = $timeout(reset, 5000);
 		}
@@ -363,35 +376,68 @@
 			var vm = this;
 			vm.ngrok = ngrokService;
 			vm.notification = notificationService;
-			vm.time = '';
-			vm.repeat = '';
+			vm.time;
+			vm.repeat;
 			vm.colorList = [];
 			vm.colorPattern = '';
 			vm.createColorList = createColorList;
 			vm.createPattern = createPattern;
 
 			function createColorList() {
+				vm.validColors = true;
+				
 				var colors = document.querySelectorAll('.color');
 				[].forEach.call(colors, function(e,i,a){
 					if (colors[i].value) {
-						vm.colorList.push('%23' + colors[i].value.substr(1));
+						if (colors[i].value.substr(0,1) === '#' && colors[i].value.length === 7) {
+							vm.colorList.push('%23' + colors[i].value.substr(1));
+						}
 					} 
 				});
+				if (vm.colorList.length === 0) {
+					console.log(vm.colorList.length);
+					vm.validColors = false;
+				}
 				vm.colorPattern = vm.colorList.join(',');
 			}
 
 			function createPattern() {
+
+				if (isNaN(parseFloat(vm.time))) {
+					vm.validTime = false;
+				} else {
+					vm.validTime = true;
+				}
+
+				if (isNaN(parseInt(vm.repeat))) {
+					vm.validRepeat = false;
+				} else {
+					vm.validRepeat = true;
+				}
+
 				createColorList();
-				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/pattern?rgb=' + vm.colorPattern + '&time=' + vm.time + '&repeats=' + vm.repeat)
-					.then(function(response) {
-						vm.colorList = [];
-						vm.notification.error = false;
-						vm.notification.displayMessage(response.status, 'pattern');
-					}, function(response) {
-						vm.colorList = [];
-						vm.notification.error = true;
-						vm.notification.displayMessage(404, 'pattern');
-					});
+
+				if (vm.validColors && vm.validTime && vm.validRepeat) {
+					$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/pattern?rgb=' + vm.colorPattern + '&time=' + vm.time + '&repeats=' + vm.repeat)
+						.then(function(response) {
+							vm.colorList = [];
+							vm.notification.error = false;
+							vm.notification.displayMessage(response.status, 'pattern');
+						}, function(response) {
+							vm.colorList = [];
+							vm.notification.error = true;
+							vm.notification.displayMessage(404, 'pattern');
+						});
+				} else {
+					vm.notification.error = true;
+					if (vm.validColors === false) {
+						vm.notification.patternError('color');
+					} else if (vm.validTime === false) {
+						vm.notification.patternError('time');
+					} else if (vm.validRepeat === false) {
+						vm.notification.patternError('repeat');
+					}
+				}
 			}
 
 		}]);
