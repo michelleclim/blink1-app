@@ -1,7 +1,7 @@
 (function(angular) {
 	'use strict';
 
-	var app = angular.module('blink', ['pathgather.popeye', 'ngAnimate', 'ngRoute']);
+	var app = angular.module('blink', ['pathgather.popeye', 'ngAnimate', 'ngRoute', 'color.picker']);
 
 	app.service('ngrokService', function(){
 		var ngrok = {
@@ -380,13 +380,14 @@
 			vm.repeat;
 			vm.colorList = [];
 			vm.colorPattern = '';
+			vm.color;
 			vm.createColorList = createColorList;
 			vm.createPattern = createPattern;
 
 			function createColorList() {
 				vm.validColors = true;
 				
-				var colors = document.querySelectorAll('.color');
+				var colors = document.querySelectorAll('.color-picker-input');
 				[].forEach.call(colors, function(e,i,a){
 					if (colors[i].value) {
 						if (colors[i].value.substr(0,1) === '#' && colors[i].value.length === 7) {

@@ -102,8 +102,11 @@
       .tim .view .pattern form input[type="text"] {
         line-height: 1em;
         font-size: 1em;
-        padding: .19em;
-        margin-bottom: .382em; }
+        padding: .19em; }
+      .tim .view .pattern form .color-picker-input-wrapper {
+        width: 100%; }
+        .tim .view .pattern form .color-picker-input-wrapper .color-picker-input {
+          width: 100%; }
     .tim .view .pattern .button {
       display: flex;
       justify-content: center;
@@ -134,7 +137,8 @@
         opacity: .9; }
   .tim .popeye-modal-container {
     background-color: rgba(85, 85, 85, 0.7);
-    color: #62c0c0; }
+    color: #62c0c0;
+    z-index: 9999; }
     .tim .popeye-modal-container .popeye-modal .popeye-close-modal {
       font-size: 2em;
       top: .5em;

@@ -146,7 +146,14 @@
 					line-height: 1em;
 					font-size: 1em;
 					padding: .19em;
-					margin-bottom: .382em;
+				}
+
+				.color-picker-input-wrapper {
+					width: 100%;
+
+					.color-picker-input {
+						width: 100%;
+					}
 				}
 			}
 
@@ -196,6 +203,7 @@
 	.popeye-modal-container {
 		background-color: rgba(85,85,85,.7);
 		color: #62c0c0;
+		z-index: 9999;
 
 		.popeye-modal {
 

@@ -6,12 +6,12 @@
 	<form>
 		<label>Time (sec):</label><input type="text" ng-model="pattern.time">
 		<label>Repeat:</label><input type="text" ng-model="pattern.repeat">
-		<label>Color #1:</label><input type="text" class="color">
-		<label>Color #2:</label><input type="text" class="color">
-		<label>Color #3:</label><input type="text" class="color">
-		<label>Color #4:</label><input type="text" class="color">
-		<label>Color #5:</label><input type="text" class="color">
-		<label>Color #6:</label><input type="text" class="color">
+		<label>Color #1:</label><color-picker ng-model="color1" color-picker-format="'hex'"></color-picker>
+		<label>Color #2:</label><color-picker ng-model="color2" color-picker-format="'hex'"></color-picker>
+		<label>Color #3:</label><color-picker ng-model="color3" color-picker-format="'hex'"></color-picker>
+		<label>Color #4:</label><color-picker ng-model="color4" color-picker-format="'hex'"></color-picker>
+		<label>Color #5:</label><color-picker ng-model="color5" color-picker-format="'hex'"></color-picker>
+		<label>Color #6:</label><color-picker ng-model="color6" color-picker-format="'hex'"></color-picker>
 		<a class="button" ng-click="pattern.createPattern()">Submit</a>
 	</form>
 </section>
