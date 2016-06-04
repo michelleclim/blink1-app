@@ -99,6 +99,10 @@
       color: #76acac;
       max-width: 300px;
       margin: 0 auto; }
+      .tim .view .pattern form .hide {
+        display: none; }
+      .tim .view .pattern form label, .tim .view .pattern form .color {
+        margin-top: .5em; }
       .tim .view .pattern form input[type="text"] {
         line-height: 1em;
         font-size: 1em;

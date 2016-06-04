@@ -6,12 +6,35 @@
 	<form>
 		<label>Time (sec):</label><input type="text" ng-model="pattern.time">
 		<label>Repeat:</label><input type="text" ng-model="pattern.repeat">
-		<label>Color #1:</label><color-picker ng-model="color1" color-picker-format="'hex'"></color-picker>
-		<label>Color #2:</label><color-picker ng-model="color2" color-picker-format="'hex'"></color-picker>
-		<label>Color #3:</label><color-picker ng-model="color3" color-picker-format="'hex'"></color-picker>
-		<label>Color #4:</label><color-picker ng-model="color4" color-picker-format="'hex'"></color-picker>
-		<label>Color #5:</label><color-picker ng-model="color5" color-picker-format="'hex'"></color-picker>
-		<label>Color #6:</label><color-picker ng-model="color6" color-picker-format="'hex'"></color-picker>
+		<label>How many colors?</label>
+		<select id="numColors">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+		</select>
+		<div id="color1" class="color">
+			<label>Color #1:</label>
+			<color-picker ng-model="color1" color-picker-format="'hex'"></color-picker>
+		</div>
+		<div id="color2" class="hide color">
+			<label>Color #2:</label>
+			<color-picker ng-model="color2" color-picker-format="'hex'"></color-picker>
+		</div>
+		<div id="color3" class="hide color">
+			<label>Color #3:</label><color-picker ng-model="color3" color-picker-format="'hex'"></color-picker>
+		</div>
+		<div id="color4" class="hide color">
+			<label>Color #4:</label><color-picker ng-model="color4" color-picker-format="'hex'"></color-picker>
+		</div>
+		<div id="color5" class="hide color">
+			<label>Color #5:</label><color-picker ng-model="color5" color-picker-format="'hex'"></color-picker>
+		</div>
+		<div id="color6" class="hide color">
+			<label>Color #6:</label><color-picker ng-model="color6" color-picker-format="'hex'"></color-picker>
+		</div>
 		<a class="button" ng-click="pattern.createPattern()">Submit</a>
 	</form>
 </section>

@@ -52,11 +52,11 @@
 
 		function patternError(error) {
 			if (error === 'time') {
-				vm.message = 'Please check your Time input!';
+				vm.message = 'Please check your time input!';
 			} else if (error === 'repeat') {
-				vm.message = 'Please check your Repeat input!';
+				vm.message = 'Please check your repeat input!';
 			} else if (error === 'color') {
-				vm.message = 'Please make sure you have at least one color in HEX!'
+				vm.message = 'Please make sure your colors are in HEX!'
 			}
 			$timeout.cancel(timer);
 			timer = $timeout(reset, 5000);
@@ -380,9 +380,24 @@
 			vm.repeat;
 			vm.colorList = [];
 			vm.colorPattern = '';
-			vm.color;
 			vm.createColorList = createColorList;
 			vm.createPattern = createPattern;
+			vm.changeColorInputs = changeColorInputs;
+
+			document.getElementById('numColors').addEventListener('change', function(){
+				changeColorInputs(document.getElementById('numColors').value);
+			});
+
+			function changeColorInputs(num) {
+				for (var i = 1; i <= 6; i++) {
+					if (i <= num) {
+						document.getElementById('color' + i).classList.remove('hide');
+					} else if (!document.getElementById('color' + i).classList.contains('hide')) {
+						document.getElementById('color' + i).classList.add('hide');
+					}
+					
+				}
+			}
 
 			function createColorList() {
 				vm.validColors = true;
