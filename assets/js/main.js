@@ -14,7 +14,7 @@
 	app.service('notificationService', ['$timeout', function($timeout) {
 		var vm = this;
 		vm.displayMessage = displayMessage;
-		vm.patternError = patternError;
+		vm.errorMessage = errorMessage;
 		vm.reset = reset;
 		vm.error = false;
 
@@ -50,14 +50,17 @@
 			timer = $timeout(reset, 5000);
 		}
 
-		function patternError(error) {
-			if (error === 'time') {
+		function errorMessage(error) {
+			if (error === 'connection') {
+				vm.message = 'Aw, blink isn\'t connected'
+			} else if (error === 'time') {
 				vm.message = 'Please check your time input!';
 			} else if (error === 'repeat') {
 				vm.message = 'Please check your repeat input!';
 			} else if (error === 'color') {
 				vm.message = 'Please make sure your colors are in HEX!'
 			}
+
 			$timeout.cancel(timer);
 			timer = $timeout(reset, 5000);
 		}
@@ -264,8 +267,13 @@
 					.then(function(response){
 						vm.type = 'emotion';
 						vm.event = emotion;
-						vm.notification.error = false;
-						vm.notification.displayMessage(response.status, 'emotion', vm.event);
+						if (response.data.blink1Connected) {
+							vm.notification.error = false;
+							vm.notification.displayMessage(response.status, 'emotion', vm.event);
+						} else {
+							vm.notification.error = true;
+							vm.notification.errorMessage('connection');
+						}
 					}, function(response){
 						vm.type = 'emotion';
 						vm.event = emotion;
@@ -318,8 +326,13 @@
 					.then(function(response){
 						vm.type = 'action';
 						vm.event = action;
-						vm.notification.error = false;
-						vm.notification.displayMessage(response.status, 'action', vm.event);
+						if (response.data.blink1Connected) {
+							vm.notification.error = false;
+							vm.notification.displayMessage(response.status, 'action', vm.event);
+						} else {
+							vm.notification.error = true;
+							vm.notification.errorMessage('connection');
+						}
 					}, function(response){
 						vm.type = 'action';
 						vm.event = action;
@@ -350,10 +363,15 @@
 			function translateMorse(message) {
 				$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/morse?message=' + message + '&time=.3&rgb=%2366b2b2')
 					.then(function(response) {
-						vm.notification.error = false;
 						vm.code = response.data.code;
-						vm.notification.displayMessage(response.status, 'morse', response.data.code);
 						vm.message = '';
+						if (response.data.blink1Connected) {
+							vm.notification.error = false;
+							vm.notification.displayMessage(response.status, 'morse', response.data.code);
+						} else {
+							vm.notification.error = true;
+							vm.notification.errorMessage('connection');
+						}
 					}, function(response) {
 						vm.notification.error = true;
 						vm.notification.displayMessage(404, 'morse');
@@ -384,8 +402,10 @@
 			vm.createPattern = createPattern;
 			vm.changeColorInputs = changeColorInputs;
 
-			document.getElementById('numColors').addEventListener('change', function(){
-				changeColorInputs(document.getElementById('numColors').value);
+			var numColors = document.getElementById('numColors');
+
+			numColors.addEventListener('change', function(){
+				changeColorInputs(numColors.value);
 			});
 
 			function changeColorInputs(num) {
@@ -403,15 +423,13 @@
 				vm.validColors = true;
 				
 				var colors = document.querySelectorAll('.color-picker-input');
-				[].forEach.call(colors, function(e,i,a){
-					if (colors[i].value) {
-						if (colors[i].value.substr(0,1) === '#' && colors[i].value.length === 7) {
-							vm.colorList.push('%23' + colors[i].value.substr(1));
-						}
-					} 
-				});
+				for (var i = 0; i < numColors.value; i++) {
+					if (colors[i].value.substr(0,1) === '#' && colors[i].value.length === 7) {
+						vm.colorList.push('%23' + colors[i].value.substr(1));
+					}
+				}
+
 				if (vm.colorList.length === 0) {
-					console.log(vm.colorList.length);
 					vm.validColors = false;
 				}
 				vm.colorPattern = vm.colorList.join(',');
@@ -437,8 +455,13 @@
 					$http.get('http://' + vm.ngrok.id + '.ngrok.io/blink1/pattern?rgb=' + vm.colorPattern + '&time=' + vm.time + '&repeats=' + vm.repeat)
 						.then(function(response) {
 							vm.colorList = [];
-							vm.notification.error = false;
-							vm.notification.displayMessage(response.status, 'pattern');
+							if (response.data.blink1Connected) {
+								vm.notification.error = false;
+								vm.notification.displayMessage(response.status, 'pattern');
+							} else {
+								vm.notification.error = true;
+								vm.notification.errorMessage('connection');
+							}
 						}, function(response) {
 							vm.colorList = [];
 							vm.notification.error = true;
@@ -447,11 +470,11 @@
 				} else {
 					vm.notification.error = true;
 					if (vm.validColors === false) {
-						vm.notification.patternError('color');
+						vm.notification.errorMessage('color');
 					} else if (vm.validTime === false) {
-						vm.notification.patternError('time');
+						vm.notification.errorMessage('time');
 					} else if (vm.validRepeat === false) {
-						vm.notification.patternError('repeat');
+						vm.notification.errorMessage('repeat');
 					}
 				}
 			}
