@@ -74,13 +74,13 @@
 
 		$routeProvider
 			.when('/morse', {
-				templateUrl: '/templates/morse-coder.html'
+				templateUrl: '/blink1-app/templates/morse-coder.html'
 			})
 			.when('/home', {
-				templateUrl: '/templates/annoyer.html'
+				templateUrl: '/blink1-app/templates/annoyer.html'
 			})
 			.when('/pattern', {
-				templateUrl: '/templates/pattern-builder.html'
+				templateUrl: '/blink1-app/templates/pattern-builder.html'
 			})
 			.otherwise({
 				redirectTo: '/home'
