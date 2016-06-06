@@ -1,0 +1,24 @@
+<section ng-controller="annoyCtrl as annoy">
+	<section class="banner" ng-class="{error: annoy.notification.error}" ng-hide="annoy.notification.message === ''">
+		{{annoy.notification.message}}
+	</section>
+	<h1>What would you like to do?</h1>
+	<section class="action commands">
+		<div class="poke" ng-click="annoy.triggerAction('poke')">poke</div>
+		<div class="punch" ng-click="annoy.triggerAction('punch')">punch</div>
+		<div class="cheer" ng-click="annoy.triggerAction('cheer')">cheer</div>
+		<div class="alert" ng-click="annoy.triggerAction('alert')">alert</div>
+		<div class="walk" ng-click="annoy.triggerAction('walk')">walk</div>
+		<div class="kitchen" ng-click="annoy.triggerAction('kitchen')">kitchen</div>
+		<div class="lunch" ng-click="annoy.triggerAction('lunch')">lunch</div>
+	</section>
+	<h1>I am...</h1>
+	<section class="emotion commands">
+		<div class="happy" ng-click="annoy.triggerEmotion('happy')">happy</div>
+		<div class="laughing" ng-click="annoy.triggerEmotion('laughing')">laughing</div>
+		<div class="sad" ng-click="annoy.triggerEmotion('sad')">sad</div>
+		<div class="mad" ng-click="annoy.triggerEmotion('mad')">grrr</div>
+		<div class="sleepy" ng-click="annoy.triggerEmotion('sleepy')">sleepy</div>
+		<div class="bored" ng-click="annoy.triggerEmotion('bored')">bored</div>
+	</section>
+</section>

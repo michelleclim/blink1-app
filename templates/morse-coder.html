@@ -1,0 +1,10 @@
+<section ng-controller="morseCtrl as morse" class="morse">
+	<section class="banner" ng-class="{error: morse.notification.error}" ng-hide="morse.notification.message === ''">
+		{{morse.notification.message}}
+	</section>
+	<h1>Write a secret message</h1>
+	<section class="message">
+		<input type="text" ng-model="morse.message">
+		<div ng-click="morse.translateMorse(morse.message)">send</div>
+	</section>
+</section>
