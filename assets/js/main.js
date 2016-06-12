@@ -11,15 +11,26 @@
 		return ngrok;
 	});
 
-	app.service('notificationService', ['$timeout', function($timeout) {
+	app.service('notificationService', ['$timeout', 'ngrokService', function($timeout, ngrokService) {
 		var vm = this;
+		vm.ngrok = ngrokService;
 		vm.displayMessage = displayMessage;
 		vm.errorMessage = errorMessage;
 		vm.reset = reset;
 		vm.error = false;
+		vm.checkSettings = checkSettings;
 
 		var timer;
 		reset();
+		checkSettings();
+
+		function checkSettings () {
+			vm.message = '';
+			if (!vm.ngrok.id || vm.ngrok.id === undefined) {
+				vm.message = 'Enter your ngrok in settings!';
+				vm.error = true;
+			}
+		}
 
 		function displayMessage(status, type, code) {
 			var ending = '';
@@ -101,11 +112,13 @@
 	app.controller('generalCtrl', [
 		'Popeye', 
 		'ngrokService', 
+		'notificationService',
 		'$scope',
 		'$rootScope',
 		function(
 			Popeye, 
 			ngrokService,
+			notificationService,
 			$scope,
 			$rootScope
 		) {
@@ -113,6 +126,7 @@
 			vm.location = '';
 			vm.getLocationId = getLocationId;
 			vm.ngrok = ngrokService;
+			vm.notification = notificationService;
 			vm.settingsModal = settingsModal;
 			vm.infoModal = infoModal;
 			vm.modalActive = false;
@@ -134,6 +148,7 @@
 				modal.closed.then(function() {
 					$rootScope.modalActive = false;
 					localStorage['ngrokId'] = vm.ngrok.id;
+					vm.notification.checkSettings();
 				});
 			}
 
